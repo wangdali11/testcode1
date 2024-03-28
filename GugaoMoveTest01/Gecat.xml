@@ -1,0 +1,178 @@
+<EtherCATConfig>
+  <Config>
+    <Master AdapterIndex="0" IoUpdateFreq="4" StackDebugLevel="0">
+      <Info>
+        <Name>GOOGOL EtherCAT Master</Name>
+        <Destination>FFFFFFFFFFFF</Destination>
+        <Source>000000000000</Source>
+        <EtherType>A488</EtherType>
+      </Info>
+    </Master>
+    <Slave>
+      <Info>
+        <Name>MADLN05BE</Name>
+        <VendorId>1647</VendorId>
+        <ProductCode>1614282756</ProductCode>
+        <RevisionNo>65536</RevisionNo>
+        <SerialNo>65536</SerialNo>
+        <DevType>1</DevType>
+        <NChannel>1</NChannel>
+      </Info>
+      <ProcessData>
+        <Sm2>
+          <Type>Outputs</Type>
+          <DefaultSize>9</DefaultSize>
+          <StartAddress>5120</StartAddress>
+          <ControlByte>100</ControlByte>
+          <Enable>true</Enable>
+          <Pdo>5632</Pdo>
+        </Sm2>
+        <Sm3>
+          <Type>Inputs</Type>
+          <DefaultSize>23</DefaultSize>
+          <StartAddress>5632</StartAddress>
+          <ControlByte>32</ControlByte>
+          <Enable>true</Enable>
+          <Pdo>6656</Pdo>
+        </Sm3>
+        <RxPdo Fixed="false" Mandatory="false" Sm="2" Virtual="false">
+          <Index>#x1600</Index>
+          <Name LcId="1033">Receive PDO mapping 1</Name>
+          <Entry Fixed="false">
+            <Index>#x6040</Index>
+            <SubIndex>#x0</SubIndex>
+            <BitLen>16</BitLen>
+            <Name LcId="1033">Controlword</Name>
+            <Comment></Comment>
+            <DataType>UINT</DataType>
+            <DefaultValue>0</DefaultValue>
+          </Entry>
+          <Entry Fixed="false">
+            <Index>#x6060</Index>
+            <SubIndex>#x0</SubIndex>
+            <BitLen>8</BitLen>
+            <Name LcId="1033">Modes of operation</Name>
+            <Comment></Comment>
+            <DataType>SINT</DataType>
+            <DefaultValue>0</DefaultValue>
+          </Entry>
+          <Entry Fixed="false">
+            <Index>#x607a</Index>
+            <SubIndex>#x0</SubIndex>
+            <BitLen>32</BitLen>
+            <Name LcId="1033">Target position</Name>
+            <Comment></Comment>
+            <DataType>DINT</DataType>
+            <DefaultValue>0</DefaultValue>
+          </Entry>
+          <Entry Fixed="false">
+            <Index>#x60b8</Index>
+            <SubIndex>#x0</SubIndex>
+            <BitLen>16</BitLen>
+            <Name LcId="1033">Touch probe function</Name>
+            <Comment></Comment>
+            <DataType>UINT</DataType>
+            <DefaultValue>0</DefaultValue>
+          </Entry>
+        </RxPdo>
+        <TxPdo Fixed="false" Mandatory="false" Sm="3" Virtual="false">
+          <Index>#x1a00</Index>
+          <Name LcId="1033">Transmit PDO mapping 1</Name>
+          <Entry Fixed="false">
+            <Index>#x603f</Index>
+            <SubIndex>#x0</SubIndex>
+            <BitLen>16</BitLen>
+            <Name LcId="1033">Error code</Name>
+            <Comment></Comment>
+            <DataType>UINT</DataType>
+            <DefaultValue>0</DefaultValue>
+          </Entry>
+          <Entry Fixed="false">
+            <Index>#x6041</Index>
+            <SubIndex>#x0</SubIndex>
+            <BitLen>16</BitLen>
+            <Name LcId="1033">Statusword</Name>
+            <Comment></Comment>
+            <DataType>UINT</DataType>
+            <DefaultValue>0</DefaultValue>
+          </Entry>
+          <Entry Fixed="false">
+            <Index>#x6061</Index>
+            <SubIndex>#x0</SubIndex>
+            <BitLen>8</BitLen>
+            <Name LcId="1033">Modes of operation display</Name>
+            <Comment></Comment>
+            <DataType>SINT</DataType>
+            <DefaultValue>0</DefaultValue>
+          </Entry>
+          <Entry Fixed="false">
+            <Index>#x6064</Index>
+            <SubIndex>#x0</SubIndex>
+            <BitLen>32</BitLen>
+            <Name LcId="1033">Position actual value</Name>
+            <Comment></Comment>
+            <DataType>DINT</DataType>
+            <DefaultValue>0</DefaultValue>
+          </Entry>
+          <Entry Fixed="false">
+            <Index>#x60b9</Index>
+            <SubIndex>#x0</SubIndex>
+            <BitLen>16</BitLen>
+            <Name LcId="1033">Touch probe status</Name>
+            <Comment></Comment>
+            <DataType>UINT</DataType>
+            <DefaultValue>0</DefaultValue>
+          </Entry>
+          <Entry Fixed="false">
+            <Index>#x60ba</Index>
+            <SubIndex>#x0</SubIndex>
+            <BitLen>32</BitLen>
+            <Name LcId="1033">Touch probe pos1 pos value</Name>
+            <Comment></Comment>
+            <DataType>DINT</DataType>
+            <DefaultValue>0</DefaultValue>
+          </Entry>
+          <Entry Fixed="false">
+            <Index>#x60f4</Index>
+            <SubIndex>#x0</SubIndex>
+            <BitLen>32</BitLen>
+            <Name LcId="1033">Following error actual value</Name>
+            <Comment></Comment>
+            <DataType>DINT</DataType>
+            <DefaultValue>0</DefaultValue>
+          </Entry>
+          <Entry Fixed="false">
+            <Index>#x60fd</Index>
+            <SubIndex>#x0</SubIndex>
+            <BitLen>32</BitLen>
+            <Name LcId="1033">Digital inputs</Name>
+            <Comment></Comment>
+            <DataType>UDINT</DataType>
+            <DefaultValue>0</DefaultValue>
+          </Entry>
+        </TxPdo>
+      </ProcessData>
+      <Mailbox>
+        <Send>
+          <Start>4096</Start>
+          <Length>256</Length>
+        </Send>
+        <Recv>
+          <Start>4608</Start>
+          <Length>256</Length>
+        </Recv>
+        <Protocol>CoE</Protocol>
+        <CoE>
+          <InitCmds></InitCmds>
+        </CoE>
+      </Mailbox>
+      <DC>
+        <AssignActivate>768</AssignActivate>
+        <CycleTime0>1000000</CycleTime0>
+        <CycleTime1>1000000</CycleTime1>
+        <ShiftTime0>0</ShiftTime0>
+        <ShiftTime1>0</ShiftTime1>
+      </DC>
+    </Slave>
+  </Config>
+</EtherCATConfig>
