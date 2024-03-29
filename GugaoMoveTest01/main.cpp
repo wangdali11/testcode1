@@ -74,7 +74,7 @@ int main()
     sRtn = GTN_SetTrapPrm(CORE, AXIS, &trap);
     commandhandler((char*)"GTN_SetTrapPrm", sRtn);
     // 设置AXIS轴的目标位置
-    sRtn = GTN_SetPos(CORE, AXIS, 85000L);
+    sRtn = GTN_SetPos(CORE, AXIS, 5000L);
     commandhandler((char*)"GTN_SetPos", sRtn);
     // 设置AXIS轴的目标速度
     sRtn = GTN_SetVel(CORE, AXIS, 10);
@@ -96,8 +96,10 @@ int main()
         short torque=0;
         GTN_GetEcatAxisAtlTorque(CORE, AXIS, &torque);
 
-        GTN_GetEcatRawData();
 
+        short getAxis=0;
+        GTN_GetEcatRawData(CORE,11,2,(unsigned char*)&getAxis);
+        printf("getAxis=%d\n", getAxis);
 
         printf("lAxisSts=0x%-10lxprfPos=%-10.1lf_torque=%d\n", lAxisSts, prfPos,torque);
         if (abs(torque) > setTorque)
