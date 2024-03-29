@@ -25,7 +25,7 @@
           <StartAddress>5120</StartAddress>
           <ControlByte>100</ControlByte>
           <Enable>true</Enable>
-          <Pdo>5632</Pdo>
+          <Pdo>5635</Pdo>
         </Sm2>
         <Sm3>
           <Type>Inputs</Type>
@@ -33,11 +33,11 @@
           <StartAddress>5632</StartAddress>
           <ControlByte>32</ControlByte>
           <Enable>true</Enable>
-          <Pdo>6656</Pdo>
+          <Pdo>6659</Pdo>
         </Sm3>
         <RxPdo Fixed="false" Mandatory="false" Sm="2" Virtual="false">
-          <Index>#x1600</Index>
-          <Name LcId="1033">Receive PDO mapping 1</Name>
+          <Index>#x1603</Index>
+          <Name LcId="1033">Receive PDO mapping 4</Name>
           <Entry Fixed="false">
             <Index>#x6040</Index>
             <SubIndex>#x0</SubIndex>
@@ -57,6 +57,24 @@
             <DefaultValue>0</DefaultValue>
           </Entry>
           <Entry Fixed="false">
+            <Index>#x6071</Index>
+            <SubIndex>#x0</SubIndex>
+            <BitLen>16</BitLen>
+            <Name LcId="1033">Target torque</Name>
+            <Comment></Comment>
+            <DataType>INT</DataType>
+            <DefaultValue>0</DefaultValue>
+          </Entry>
+          <Entry Fixed="false">
+            <Index>#x6072</Index>
+            <SubIndex>#x0</SubIndex>
+            <BitLen>16</BitLen>
+            <Name LcId="1033">Max torque</Name>
+            <Comment></Comment>
+            <DataType>UINT</DataType>
+            <DefaultValue>5000</DefaultValue>
+          </Entry>
+          <Entry Fixed="false">
             <Index>#x607a</Index>
             <SubIndex>#x0</SubIndex>
             <BitLen>32</BitLen>
@@ -64,6 +82,15 @@
             <Comment></Comment>
             <DataType>DINT</DataType>
             <DefaultValue>0</DefaultValue>
+          </Entry>
+          <Entry Fixed="false">
+            <Index>#x6080</Index>
+            <SubIndex>#x0</SubIndex>
+            <BitLen>32</BitLen>
+            <Name LcId="1033">Max motor speed</Name>
+            <Comment></Comment>
+            <DataType>UDINT</DataType>
+            <DefaultValue>6000</DefaultValue>
           </Entry>
           <Entry Fixed="false">
             <Index>#x60b8</Index>
@@ -74,10 +101,19 @@
             <DataType>UINT</DataType>
             <DefaultValue>0</DefaultValue>
           </Entry>
+          <Entry Fixed="false">
+            <Index>#x60ff</Index>
+            <SubIndex>#x0</SubIndex>
+            <BitLen>32</BitLen>
+            <Name LcId="1033">Target velocity</Name>
+            <Comment></Comment>
+            <DataType>DINT</DataType>
+            <DefaultValue>0</DefaultValue>
+          </Entry>
         </RxPdo>
         <TxPdo Fixed="false" Mandatory="false" Sm="3" Virtual="false">
-          <Index>#x1a00</Index>
-          <Name LcId="1033">Transmit PDO mapping 1</Name>
+          <Index>#x1a03</Index>
+          <Name LcId="1033">Transmit PDO mapping 4</Name>
           <Entry Fixed="false">
             <Index>#x603f</Index>
             <SubIndex>#x0</SubIndex>
@@ -115,6 +151,24 @@
             <DefaultValue>0</DefaultValue>
           </Entry>
           <Entry Fixed="false">
+            <Index>#x606c</Index>
+            <SubIndex>#x0</SubIndex>
+            <BitLen>32</BitLen>
+            <Name LcId="1033">Velocity actual value</Name>
+            <Comment></Comment>
+            <DataType>DINT</DataType>
+            <DefaultValue>0</DefaultValue>
+          </Entry>
+          <Entry Fixed="false">
+            <Index>#x6077</Index>
+            <SubIndex>#x0</SubIndex>
+            <BitLen>16</BitLen>
+            <Name LcId="1033">Torque actual value</Name>
+            <Comment></Comment>
+            <DataType>INT</DataType>
+            <DefaultValue>0</DefaultValue>
+          </Entry>
+          <Entry Fixed="false">
             <Index>#x60b9</Index>
             <SubIndex>#x0</SubIndex>
             <BitLen>16</BitLen>
@@ -128,15 +182,6 @@
             <SubIndex>#x0</SubIndex>
             <BitLen>32</BitLen>
             <Name LcId="1033">Touch probe pos1 pos value</Name>
-            <Comment></Comment>
-            <DataType>DINT</DataType>
-            <DefaultValue>0</DefaultValue>
-          </Entry>
-          <Entry Fixed="false">
-            <Index>#x60f4</Index>
-            <SubIndex>#x0</SubIndex>
-            <BitLen>32</BitLen>
-            <Name LcId="1033">Following error actual value</Name>
             <Comment></Comment>
             <DataType>DINT</DataType>
             <DefaultValue>0</DefaultValue>
