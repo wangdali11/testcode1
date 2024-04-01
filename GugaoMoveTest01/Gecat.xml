@@ -25,7 +25,7 @@
           <StartAddress>5120</StartAddress>
           <ControlByte>100</ControlByte>
           <Enable>true</Enable>
-          <Pdo>5635</Pdo>
+          <Pdo>5633</Pdo>
         </Sm2>
         <Sm3>
           <Type>Inputs</Type>
@@ -33,11 +33,11 @@
           <StartAddress>5632</StartAddress>
           <ControlByte>32</ControlByte>
           <Enable>true</Enable>
-          <Pdo>6659</Pdo>
+          <Pdo>6657</Pdo>
         </Sm3>
         <RxPdo Fixed="false" Mandatory="false" Sm="2" Virtual="false">
-          <Index>#x1603</Index>
-          <Name LcId="1033">Receive PDO mapping 4</Name>
+          <Index>#x1601</Index>
+          <Name LcId="1033">Receive PDO mapping 2</Name>
           <Entry Fixed="false">
             <Index>#x6040</Index>
             <SubIndex>#x0</SubIndex>
@@ -64,15 +64,6 @@
             <Comment></Comment>
             <DataType>INT</DataType>
             <DefaultValue>0</DefaultValue>
-          </Entry>
-          <Entry Fixed="false">
-            <Index>#x6072</Index>
-            <SubIndex>#x0</SubIndex>
-            <BitLen>16</BitLen>
-            <Name LcId="1033">Max torque</Name>
-            <Comment></Comment>
-            <DataType>UINT</DataType>
-            <DefaultValue>5000</DefaultValue>
           </Entry>
           <Entry Fixed="false">
             <Index>#x607a</Index>
@@ -112,8 +103,8 @@
           </Entry>
         </RxPdo>
         <TxPdo Fixed="false" Mandatory="false" Sm="3" Virtual="false">
-          <Index>#x1a03</Index>
-          <Name LcId="1033">Transmit PDO mapping 4</Name>
+          <Index>#x1a01</Index>
+          <Name LcId="1033">Transmit PDO mapping 2</Name>
           <Entry Fixed="false">
             <Index>#x603f</Index>
             <SubIndex>#x0</SubIndex>
