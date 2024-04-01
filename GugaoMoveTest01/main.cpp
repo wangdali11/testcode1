@@ -18,6 +18,16 @@ void commandhandler(char* command, short error)
     }
 }
 
+/*
+力矩控制
+设定力的方向后，就会决定是正转还是反转。
+到达指定设定力矩后，不会停止，只是输出的力不会去超过这个力矩，需要你手动停止。
+举个例子： 电机遇到障碍物后，力矩不会再增大，维持该力矩。障碍物移开，电机会继续运动。
+运动速度由最大速度变量(0x6080)限制。这个变量也会影响其他模式，建议设置前读取一个该变量，存储一下。
+*/
+
+
+
 int main()
 {
     short sRtn;
@@ -25,7 +35,7 @@ int main()
     TTrapPrm trap;
     long lAxisSts;
     double prfPos;
-    short setTorque=6000;
+  
     // 打开运动控制器
     sRtn = GTN_Open();
     // 指令返回值检测
@@ -61,60 +71,24 @@ int main()
     // 位置清零
     sRtn = GTN_ZeroPos(CORE, AXIS);
     commandhandler((char*)"GTN_ZeroPos", sRtn);
-    // // AXIS轴规划位置清零
-    // sRtn = GTN_SetPrfPos(CORE, AXIS, 0);
-    // commandhandler((char*)"GTN_SetPrfPos", sRtn);
-    // // 将AXIS轴设为点位模式
-    // sRtn = GTN_PrfTrap(CORE, AXIS);
-    // commandhandler((char*)"GTN_PrfTrap", sRtn);
-    // // 读取点位运动参数
-    // sRtn = GTN_GetTrapPrm(CORE, AXIS, &trap);
-    // commandhandler((char*)"GTN_GetTrapPrm", sRtn);
-    // trap.acc = 0.25;
-    // trap.dec = 0.125;
-    // trap.smoothTime = 25;
-    // // 设置点位运动参数
-    // sRtn = GTN_SetTrapPrm(CORE, AXIS, &trap);
-    // commandhandler((char*)"GTN_SetTrapPrm", sRtn);
-    // // 设置AXIS轴的目标位置
-    // sRtn = GTN_SetPos(CORE, AXIS, -115000L);
-    // commandhandler((char*)"GTN_SetPos", sRtn);
-    // // 设置AXIS轴的目标速度
-    // sRtn = GTN_SetVel(CORE, AXIS, 10);
-    // commandhandler((char*)"GTN_SetVel", sRtn);
 
+    uint32_t getSpeedMax;
+    sRtn =GTN_GetEcatRawData(CORE, 9,4,(unsigned char*)&getSpeedMax);
+    commandhandler((char*)"getSpeedMax", sRtn);
+    std::cout << "getspeedmax__" <<getSpeedMax<< std::endl;
 
- uint32_t getspeedmax;
-    GTN_GetEcatRawData(CORE, 9,4,(unsigned char*)&getspeedmax);
-    commandhandler((char*)"getspeedmax", sRtn);
-    std::cout << "getspeedmax__" <<getspeedmax<< std::endl;
+    // 最大速度限定 
+    uint32_t speedmax=30;
+    sRtn=GTN_SetEcatRawData(CORE, 9,4,(unsigned char*)&speedmax);
+    commandhandler((char*)"GTN_SetEcatRawData speedmax", sRtn);
 
-
-
-    // unsigned  char stoptorque[10] = { 0 };
-    // stoptorque[1] = -100;
-    uint32_t speedmax=60;
-    GTN_SetEcatRawData(CORE, 9,4,(unsigned char*)&speedmax);
-    commandhandler((char*)"GTN_SetEcatRawData", sRtn);
-
-
-    GTN_GetEcatRawData(CORE, 9,4,(unsigned char*)&getspeedmax);
-    commandhandler((char*)"getspeedmax", sRtn);
-    std::cout << "getspeedmax__" <<getspeedmax<< std::endl;
-
-
-
-   sRtn = GTN_SetEcatAxisMode(CORE, AXIS, 10);
+    // 力矩控制模式
+    sRtn = GTN_SetEcatAxisMode(CORE, AXIS, 10);
     commandhandler((char*)"GTN_SetEcatAxisMode", sRtn);
     //  设置力矩
-    sRtn = GTN_SetEcatAxisPT(CORE, AXIS, -300);
-    commandhandler((char*)"GTN_SetEcatAxisPT", sRtn);
-
-
-
-    
-
-    
+    short setTorque=300;
+    sRtn = GTN_SetEcatAxisPT(CORE, AXIS, setTorque);
+    commandhandler((char*)"GTN_SetEcatRawData setTorque", sRtn);
     while (1)
     {
         short torque=0;
@@ -122,51 +96,14 @@ int main()
         GTN_GetEcatAxisAtlTorque(CORE, AXIS, &torque);
         std::this_thread::sleep_for(std::chrono::milliseconds(1));
         printf("torque=%d\n", torque);
+        if (abs(torque) >= abs(setTorque))
+        {
+            printf("torque=%d over set %d,stop\n",  torque,setTorque);
+            GTN_Stop(CORE, AXIS, 1);
+            break;
+        }
 
     }
-    // GTN_Stop();
-    std::this_thread::sleep_for(std::chrono::milliseconds(200));
-    std::cout << "Delay complete!" << std::endl;
-   
-
-    // // 启动AXIS轴的运动
-    // sRtn = GTN_Update(CORE, 1 << (AXIS - 1));
-    // commandhandler((char*)"GTN_Update", sRtn);
-    
-    // int i = 0;
-    // do
-    // {
-    //     // 读取AXIS轴的状态
-    //     sRtn = GTN_GetSts(CORE, AXIS, &lAxisSts);
-    //     commandhandler((char*)"GTN_GetSts", sRtn);
-    //     // 读取AXIS轴的规划位置
-    //     sRtn = GTN_GetPrfPos(CORE, AXIS, &prfPos);
-    //     commandhandler((char*)"GTN_GetPrfPos", sRtn);
-    //     short torque=0;
-
-    //     // 读力矩的
-    //     GTN_GetEcatAxisAtlTorque(CORE, AXIS, &torque);
-
-
-    //     // unsigned char getAxis[10] = {0};
-    //     // sRtn = GTN_GetEcatRawData(CORE, 5,4,(unsigned char*)&getAxis);
-    //     // commandhandler((char*)"GTN_GetPrfPos", sRtn);
-    //     // printf("getAxis=%d_%d_%d_%d\n", getAxis[0], getAxis[1],getAxis[2], getAxis[3]);
-    //     // short getAxis = 0;
-    //     // sRtn = GTN_GetEcatRawData(CORE, 5,2,(unsigned char*)&getAxis);
-    //     // printf("getAxis=%d\n", getAxis);
-    //     //printf("getAxis=%d_%d\n", getAxis[0], getAxis[1]);
-
-    //     printf("lAxisSts=0x%-10lxprfPos=%-10.1lf_torque=%d\n", lAxisSts, prfPos,torque);
-    //     if (abs(torque) > setTorque)
-    //     {
-    //         printf("torque=%d over set %d\n",  torque,setTorque);
-    //         GTN_Stop(CORE, AXIS, 1);
-    //         break;
-    //     }
-    // } while (i++<10000);
-
-
     // 伺服关闭
     sRtn = GTN_AxisOff(CORE, AXIS);
     commandhandler((char*)"GTN_AxisOff", sRtn);
