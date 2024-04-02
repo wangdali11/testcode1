@@ -17,6 +17,37 @@ void commandhandler(char* command, short error)
         printf("%s = %d\n", command, error);
     }
 }
+#include <iostream>
+#include <fstream>
+#include <ctime>
+#include <cstdarg>
+#include <iomanip>
+void log(const char* format, ...) {
+    char buffer[256];
+    va_list args;
+    va_start(args, format);
+    vsnprintf(buffer, sizeof(buffer), format, args);
+    va_end(args);
+
+    auto now = std::chrono::system_clock::now();
+    auto now_ms = std::chrono::time_point_cast<std::chrono::milliseconds>(now);
+    auto now_c = std::chrono::system_clock::to_time_t(now);
+    auto ms = std::chrono::duration_cast<std::chrono::milliseconds>(now_ms.time_since_epoch()) % 1000;
+
+    tm ltm;
+    localtime_s(&ltm, &now_c);
+
+    std::ofstream file("a.txt", std::ios_base::app);
+    file << "[" << 1900 + ltm.tm_year << "-" << 1 + ltm.tm_mon << "-" << ltm.tm_mday << " "
+        << ltm.tm_hour << ":" << ltm.tm_min << ":" << ltm.tm_sec << "." << std::setfill('0') << std::setw(3) << ms.count() << "] " << buffer ;
+    file.close();
+}
+
+int mainx() {
+    log("This is a log message.");
+    
+    return 0;
+}
 
 /*
 力矩控制
@@ -34,7 +65,7 @@ int main()
     short sEcatSts;
     TTrapPrm trap;
     long lAxisSts;
-    double prfPos;
+  
   
     // 打开运动控制器
     sRtn = GTN_Open();
@@ -86,23 +117,33 @@ int main()
     sRtn = GTN_SetEcatAxisMode(CORE, AXIS, 10);
     commandhandler((char*)"GTN_SetEcatAxisMode", sRtn);
     //  设置力矩
-    short setTorque=300;
+    short setTorque=-300;
     sRtn = GTN_SetEcatAxisPT(CORE, AXIS, setTorque);
     commandhandler((char*)"GTN_SetEcatRawData setTorque", sRtn);
+    int i=0;
+    
     while (1)
     {
         short torque=0;
         // 读力矩的
         GTN_GetEcatAxisAtlTorque(CORE, AXIS, &torque);
+        // 读取AXIS轴的位置
+        double prfPos;
+        sRtn = GTN_GetAxisEncPos(CORE, AXIS, &prfPos);
+        commandhandler((char*)"GTN_GetPrfPos", sRtn);
         std::this_thread::sleep_for(std::chrono::milliseconds(1));
-        printf("torque=%d\n", torque);
+        printf("torque=%d_prfPos=%-10.1lf\n", torque,prfPos);
+        log("torque=%d_prfPos=%-10.1lf\n", torque,prfPos);
         if (abs(torque) >= abs(setTorque))
         {
-            printf("torque=%d over set %d,stop\n",  torque,setTorque);
-            GTN_Stop(CORE, AXIS, 1);
-            break;
+            if(i++ > 1000)
+            {
+                printf("torque=%d over set %d,stop\n",  torque,setTorque);
+                GTN_Stop(CORE, AXIS, 1);
+                break;
+            }
+            
         }
-
     }
     // 伺服关闭
     sRtn = GTN_AxisOff(CORE, AXIS);

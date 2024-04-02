@@ -1,5 +1,4 @@
 ﻿  main.cpp
-D:\code\testToqure\GugaoMoveTest01\main.cpp(43,12): warning C4101: “prfPos”: 未引用的局部变量
-D:\code\testToqure\GugaoMoveTest01\main.cpp(41,14): warning C4101: “trap”: 未引用的局部变量
-D:\code\testToqure\GugaoMoveTest01\main.cpp(42,10): warning C4101: “lAxisSts”: 未引用的局部变量
+D:\code\testToqure\GugaoMoveTest01\main.cpp(66,14): warning C4101: “trap”: 未引用的局部变量
+D:\code\testToqure\GugaoMoveTest01\main.cpp(67,10): warning C4101: “lAxisSts”: 未引用的局部变量
   GugaoMoveTest01.vcxproj -> D:\code\testToqure\x64\Debug\GugaoMoveTest01.exe
